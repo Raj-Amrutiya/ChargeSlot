@@ -70,6 +70,22 @@ const Navbar = () => {
               <Compass className="w-4 h-4" />
               Find Stations
             </Link>
+            <Link
+              to="/about"
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                isActive('/about') ? 'text-brand-600 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              to="/help"
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                isActive('/help') ? 'text-brand-600 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              Help
+            </Link>
 
             {isAuthenticated && (
               <>
@@ -226,6 +242,20 @@ const Navbar = () => {
             className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
           >
             Find Stations
+          </Link>
+          <Link
+            to="/about"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
+          >
+            About
+          </Link>
+          <Link
+            to="/help"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Help
           </Link>
 
           {isAuthenticated ? (

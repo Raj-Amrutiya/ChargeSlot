@@ -255,6 +255,10 @@ const ManageStationsPage = () => {
                           src={s.imageUrl}
                           alt={s.name}
                           className="w-10 h-10 rounded-lg object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80';
+                          }}
                         />
                         <div>
                           <p className="font-bold text-slate-900 text-sm">{s.name}</p>

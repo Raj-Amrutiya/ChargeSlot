@@ -47,6 +47,9 @@ const LandingPage = () => {
   const totalConnectors = stations.reduce((acc, s) => acc + (s.totalConnectors || 0), 0);
   const totalAvailable = stations.reduce((acc, s) => acc + (s.availableConnectors || 0), 0);
 
+  const FALLBACK_IMG =
+    'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=800&q=80';
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -250,9 +253,13 @@ const LandingPage = () => {
               >
                 <div className="relative h-44 overflow-hidden">
                   <img
-                    src={station.imageUrl}
+                    src={station.imageUrl || FALLBACK_IMG}
                     alt={station.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = FALLBACK_IMG;
+                    }}
                   />
                   <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-slate-800 shadow-sm flex items-center gap-1">
                     <Zap className="w-3 h-3 text-brand-600 fill-current" />

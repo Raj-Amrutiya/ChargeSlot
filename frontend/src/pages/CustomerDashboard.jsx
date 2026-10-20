@@ -15,6 +15,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import Badge from '../components/common/Badge';
+import Skeleton from '../components/common/Skeleton';
 
 const CustomerDashboard = () => {
   const { user } = useAuth();
@@ -40,8 +41,48 @@ const CustomerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      <div className="space-y-8">
+        {/* Header shimmer */}
+        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft animate-pulse flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-2">
+            <div className="h-3 bg-slate-200 rounded w-28" />
+            <div className="h-8 bg-slate-200 rounded w-64" />
+            <div className="h-3 bg-slate-200 rounded w-80" />
+          </div>
+          <div className="flex gap-3">
+            <div className="h-9 bg-slate-200 rounded-xl w-32" />
+            <div className="h-9 bg-slate-200 rounded-xl w-28" />
+          </div>
+        </div>
+        {/* Stat cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <Skeleton.StatCard key={i} />
+          ))}
+        </div>
+        {/* Upcoming banner */}
+        <Skeleton.UpcomingBanner />
+        {/* Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7 space-y-3">
+            {[1, 2, 3].map((i) => (
+              <Skeleton.StationRow key={i} />
+            ))}
+          </div>
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-soft animate-pulse space-y-3">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex justify-between py-3 border-b border-slate-100 last:border-0">
+                  <div className="space-y-1.5">
+                    <div className="h-3.5 bg-slate-200 rounded w-36" />
+                    <div className="h-3 bg-slate-200 rounded w-24" />
+                  </div>
+                  <div className="h-3 bg-slate-200 rounded w-12" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -254,6 +295,10 @@ const CustomerDashboard = () => {
                     src={station.imageUrl}
                     alt={station.name}
                     className="w-14 h-14 rounded-xl object-cover shrink-0"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80';
+                    }}
                   />
                   <div className="min-w-0">
                     <h4 className="font-bold text-slate-900 text-sm truncate">{station.name}</h4>

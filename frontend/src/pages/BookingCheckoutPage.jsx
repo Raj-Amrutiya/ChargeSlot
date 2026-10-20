@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import Skeleton from '../components/common/Skeleton';
 
 const BookingCheckoutPage = () => {
   const { stationId } = useParams();
@@ -127,8 +128,33 @@ const BookingCheckoutPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      <div className="max-w-5xl mx-auto space-y-6">
+        <div className="h-4 bg-slate-200 animate-pulse rounded w-40" />
+        <div className="space-y-2">
+          <div className="h-3 bg-slate-200 animate-pulse rounded w-28" />
+          <div className="h-8 bg-slate-200 animate-pulse rounded w-3/5" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7">
+            <Skeleton.CheckoutForm />
+          </div>
+          <div className="lg:col-span-5">
+            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card animate-pulse space-y-4">
+              <div className="h-5 bg-slate-200 rounded w-36" />
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex justify-between pt-3 border-t border-slate-100">
+                  <div className="h-3 bg-slate-200 rounded w-24" />
+                  <div className="h-3 bg-slate-200 rounded w-20" />
+                </div>
+              ))}
+              <div className="flex justify-between pt-3 border-t border-slate-100">
+                <div className="h-4 bg-slate-200 rounded w-32" />
+                <div className="h-6 bg-slate-200 rounded w-16" />
+              </div>
+              <div className="h-12 bg-slate-200 rounded-xl" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -173,6 +199,10 @@ const BookingCheckoutPage = () => {
               src={station?.imageUrl}
               alt={station?.name}
               className="w-16 h-16 rounded-xl object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80';
+              }}
             />
             <div>
               <h3 className="font-bold text-slate-900 text-base">{station?.name}</h3>
@@ -336,7 +366,10 @@ const BookingCheckoutPage = () => {
               className="w-full py-3.5 px-4 rounded-xl text-white font-bold text-sm bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-600/20 hover:shadow-lg disabled:opacity-50 transition flex items-center justify-center gap-2"
             >
               {submitting ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Locking your slot…
+                </>
               ) : (
                 <>
                   Confirm & Reserve Slot

@@ -14,6 +14,7 @@ import {
 import api from '../services/api';
 import Badge from '../components/common/Badge';
 import Modal from '../components/common/Modal';
+import Skeleton from '../components/common/Skeleton';
 
 const MyBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
@@ -141,8 +142,10 @@ const MyBookingsPage = () => {
 
       {/* Bookings List */}
       {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton.BookingRow key={i} />
+          ))}
         </div>
       ) : filteredBookings.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200/80 space-y-3">
@@ -258,7 +261,14 @@ const MyBookingsPage = () => {
               disabled={cancelLoading}
               className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
             >
-              {cancelLoading ? 'Cancelling...' : 'Confirm Cancellation'}
+              {cancelLoading ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Cancelling…
+                </>
+              ) : (
+                'Confirm Cancellation'
+              )}
             </button>
           </div>
         </div>

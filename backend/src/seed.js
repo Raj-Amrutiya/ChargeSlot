@@ -92,7 +92,7 @@ const seedData = async () => {
           type: 'Point',
           coordinates: [72.5085, 23.0289],
         },
-        imageUrl: 'https://images.unsplash.com/photo-1558441719-8b489c63f736?auto=format&fit=crop&w=1200&q=80',
+        imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
         openingTime: '00:00',
         closingTime: '23:59',
         pricePerKwh: 22,

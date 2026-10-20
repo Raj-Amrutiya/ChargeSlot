@@ -17,6 +17,8 @@ import api from '../services/api';
 import Badge from '../components/common/Badge';
 import StationMap from '../components/map/StationMap';
 
+import Skeleton from '../components/common/Skeleton';
+
 const StationDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -76,8 +78,27 @@ const StationDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      <div className="space-y-8">
+        <Skeleton.StationHero />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7 space-y-6">
+            <Skeleton.StationDetailCard />
+            <Skeleton.ConnectorCard />
+            <div className="h-72 bg-slate-200 animate-pulse rounded-2xl" />
+          </div>
+          <div className="lg:col-span-5">
+            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card space-y-6 animate-pulse">
+              <div className="space-y-2">
+                <div className="h-3 bg-slate-200 rounded w-24" />
+                <div className="h-6 bg-slate-200 rounded w-48" />
+                <div className="h-3 bg-slate-200 rounded w-56" />
+              </div>
+              <div className="h-10 bg-slate-200 rounded-xl" />
+              <Skeleton.SlotGrid count={12} />
+              <div className="h-12 bg-slate-200 rounded-xl" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -123,6 +144,10 @@ const StationDetailsPage = () => {
             src={station.imageUrl}
             alt={station.name}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent flex flex-col justify-end p-6 sm:p-8 text-white">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -278,9 +303,7 @@ const StationDetailsPage = () => {
               </div>
 
               {slotsLoading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="w-6 h-6 border-3 border-brand-500 border-t-transparent rounded-full animate-spin" />
-                </div>
+                <Skeleton.SlotGrid count={12} />
               ) : !availability?.slots || availability.slots.length === 0 ? (
                 <div className="py-6 text-center text-xs text-slate-400">
                   No slots configured for this date.

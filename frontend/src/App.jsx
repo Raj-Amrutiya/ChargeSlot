@@ -14,6 +14,8 @@ import CustomerDashboard from './pages/CustomerDashboard';
 import MyBookingsPage from './pages/MyBookingsPage';
 import BookingDetailsPage from './pages/BookingDetailsPage';
 import ProfilePage from './pages/ProfilePage';
+import AboutPage from './pages/AboutPage';
+import HelpPage from './pages/HelpPage';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -34,6 +36,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/stations" element={<FindStationsPage />} />
         <Route path="/stations/:id" element={<StationDetailsPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/help" element={<HelpPage />} />
 
         {/* Customer Protected Routes */}
         <Route

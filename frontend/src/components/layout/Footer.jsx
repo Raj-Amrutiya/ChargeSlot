@@ -42,6 +42,16 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/about" className="hover:text-brand-600 transition">
+                  About ChargeSlot
+                </Link>
+              </li>
+              <li>
+                <Link to="/help" className="hover:text-brand-600 transition">
+                  Help & FAQ
+                </Link>
+              </li>
+              <li>
                 <Link to="/dashboard" className="hover:text-brand-600 transition">
                   Customer Portal
                 </Link>

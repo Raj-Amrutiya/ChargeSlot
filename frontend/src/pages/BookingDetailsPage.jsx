@@ -16,6 +16,7 @@ import {
 import api from '../services/api';
 import Badge from '../components/common/Badge';
 import Modal from '../components/common/Modal';
+import Skeleton from '../components/common/Skeleton';
 
 const BookingDetailsPage = () => {
   const { id } = useParams();
@@ -63,8 +64,15 @@ const BookingDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="h-4 bg-slate-200 animate-pulse rounded w-36" />
+          <div className="flex gap-3">
+            <div className="h-8 bg-slate-200 animate-pulse rounded-xl w-28" />
+            <div className="h-8 bg-slate-200 animate-pulse rounded-xl w-28" />
+          </div>
+        </div>
+        <Skeleton.Voucher />
       </div>
     );
   }
@@ -267,9 +275,16 @@ const BookingDetailsPage = () => {
             <button
               onClick={handleCancel}
               disabled={cancelling}
-              className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm"
+              className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5"
             >
-              {cancelling ? 'Cancelling...' : 'Confirm Cancellation'}
+              {cancelling ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Cancelling…
+                </>
+              ) : (
+                'Confirm Cancellation'
+              )}
             </button>
           </div>
         </div>

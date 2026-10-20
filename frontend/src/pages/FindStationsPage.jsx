@@ -15,6 +15,7 @@ import {
 import api from '../services/api';
 import StationMap from '../components/map/StationMap';
 import Badge from '../components/common/Badge';
+import Skeleton from '../components/common/Skeleton';
 
 const FindStationsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -178,8 +179,10 @@ const FindStationsPage = () => {
           }`}
         >
           {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton.StationCard key={i} />
+              ))}
             </div>
           ) : stations.length === 0 ? (
             <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
@@ -212,6 +215,10 @@ const FindStationsPage = () => {
                     src={station.imageUrl}
                     alt={station.name}
                     className="w-full sm:w-36 h-36 rounded-xl object-cover shrink-0"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80';
+                    }}
                   />
 
                   <div className="flex-1 flex flex-col justify-between">
