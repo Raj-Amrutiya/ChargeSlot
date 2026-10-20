@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -90,11 +91,23 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// 404 handler for unhandled routes
+// Serve the built React frontend from the same container
+const frontendPath = path.join(__dirname, '..', 'public');
+app.use(express.static(frontendPath));
+
+// Return the React app for browser routes, but keep unknown API routes as JSON 404s
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    return next();
+  }
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+// 404 handler for unhandled API routes and other requests
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: `API route '${req.originalUrl}' with method '${req.method}' not found`,
+    message: `Route '${req.originalUrl}' with method '${req.method}' not found`,
   });
 });
 
