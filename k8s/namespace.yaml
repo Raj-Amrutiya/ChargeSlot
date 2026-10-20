@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chargeslot
+  labels:
+    app.kubernetes.io/name: chargeslot
+    app.kubernetes.io/part-of: ev-charging-system
