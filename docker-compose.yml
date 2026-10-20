@@ -1,0 +1,64 @@
+services:
+  # Database Service: MongoDB with Persistent Storage
+  mongo:
+    image: mongo:7.0
+    container_name: chargeslot-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - chargeslot-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Backend REST API Service: Node.js + Express
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chargeslot-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/chargeslot
+      - JWT_SECRET=chargeslot_super_secret_jwt_key_2026_secure_random
+      - JWT_EXPIRES_IN=7d
+      - COOKIE_SECRET=chargeslot_cookie_signing_secret_987654321
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - chargeslot-net
+
+  # Frontend Web Client: React + Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chargeslot-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - chargeslot-net
+
+volumes:
+  mongo-data:
+    name: chargeslot_mongo_data
+
+networks:
+  chargeslot-net:
+    name: chargeslot_network
+    driver: bridge
